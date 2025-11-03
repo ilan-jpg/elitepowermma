@@ -156,6 +156,20 @@ nav a:hover{color:var(--accent)}
   nav a {padding:6px 8px;}
   .contact-btn {width:60px; height:60px; font-size:22px;}
 }
+
+/* Small phones fix (navbar + scroll) */
+@media (max-height:700px), (max-width:414px){
+  body {padding-top:calc(50px + env(safe-area-inset-top)); overflow-x:hidden;}
+  header {height:50px;}
+  .nav-inner {padding:0 8px;}
+  nav a {padding:4px 6px; font-size:0.9rem;}
+  .hero {min-height:auto; height:calc(100vh - 50px);}
+  .hero-content h1 {font-size:1.6rem;}
+  .hero-content p.lead {font-size:0.9rem;}
+  .contact-btn {width:56px; height:56px; font-size:20px;}
+  .gallery-item img {max-height:180px;}
+  .class-card {padding:14px;}
+}
 </style>
 </head>
 <body>
@@ -236,7 +250,7 @@ nav a:hover{color:var(--accent)}
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT OVERLAY -->
 <div class="contact-overlay" id="contactOverlay" aria-hidden="true">
   <div class="contact-wrap" role="dialog" aria-modal="true" aria-label="Contact methods">
     <a class="contact-btn" id="c-wa" href="https://wa.me/971509580389" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
