@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Elite Power MMA — Sharjah</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+:root{
+  --bg:#000;
+  --text:#fff;
+  --accent:#e23b3b;
+  --muted:#cfcfcf;
+  --overlay-bg:rgba(255,255,255,0.85);
+  font-family:"Poppins",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  line-height:1.45;padding-top:72px;
+}
+a{color:inherit;text-decoration:none}
+
+/* NAVBAR */
+header{
+  position:fixed;top:0;left:0;right:0;
+  z-index:1000;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(180deg,rgba(0,0,0,0.55),rgba(0,0,0,0.35));
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.03);
+  height:72px;
+}
+.nav-inner{
+  max-width:1100px;width:100%;padding:0 20px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:52px;height:52px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.06)}
+.brand .title{font-weight:800;letter-spacing:0.6px}
+nav{display:flex;gap:18px;align-items:center}
+nav a{color:var(--text);padding:8px 12px;border-radius:8px;font-weight:600}
+nav a:hover{color:var(--accent)}
+
+/* HERO */
+.hero{
+  height:90vh;min-height:520px;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;
+}
+.hero-bg-zoom{
+  position:absolute;inset:0;
+  background-image:url('gym-bg.jpg');
+  background-size:cover;
+  background-position:center;
+  filter:grayscale(100%);
+  animation:zoomCinematic 15s ease-in-out infinite;
+  z-index:0;
+}
+@keyframes zoomCinematic{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+  100%{transform:scale(1)}
+}
+.hero::after{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.6));
+}
+.hero-content{position:relative; z-index:2; padding:20px; max-width:900px;}
+.hero-content h1{font-size:42px;line-height:1.2;margin:0;color:var(--text);text-shadow:0 6px 30px rgba(0,0,0,0.6)}
+.hero-content p.lead{margin-top:14px;color:var(--muted);font-size:1.05rem}
+
+/* Fade-in elements */
+[data-observe]{opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease;}
+[data-observe].visible{opacity:1; transform:translateY(0);}
+
+/* ABOUT */
+#about{padding:80px 20px;background:transparent;max-width:1100px;margin:0 auto}
+#about h2{font-size:28px;color:var(--accent);margin-bottom:12px}
+#about .about-box{
+  background: rgba(255,255,255,0.02);
+  padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)
+}
+#about p{color:var(--muted);line-height:1.7}
+
+/* CLASSES */
+#classes{padding:80px 20px;max-width:1100px;margin:0 auto}
+#classes h2{font-size:28px;color:var(--accent);margin-bottom:10px}
+#classes p.intro{color:var(--muted);max-width:920px;margin-bottom:28px}
+.classes-grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.class-card{
+  padding:18px;border-radius:12px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(8px);
+  border:1px solid rgba(255,255,255,0.03);
+  transform: translateY(20px);
+  opacity:0;
+  transition: all 0.5s ease;
+}
+.class-card.visible{opacity:1; transform:translateY(0);}
+.class-card h3{color:var(--accent);margin-bottom:8px}
+.class-card p{color:var(--muted)}
+
+/* GALLERY */
+#gallery{padding:80px 20px;max-width:1100px;margin:0 auto}
+.gallery-grid{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.gallery-item{
+  width:100%; max-width:350px; margin:auto; border-radius:12px; overflow:hidden; padding:12px;
+  border:1px solid rgba(255,255,255,0.03); background:rgba(255,255,255,0.02);
+  transition:all 0.6s ease; opacity:0;
+}
+.gallery-item.left{transform:translateX(-60px);}
+.gallery-item.right{transform:translateX(60px);}
+.gallery-item.visible{opacity:1; transform:translateX(0);}
+.gallery-item img{width:100%; height:auto; max-height:250px; object-fit:cover; border-radius:14px;}
+.gallery-item p{color:var(--muted); font-size:0.95rem; text-align:center; margin-top:8px;}
+
+/* CONTACT OVERLAY */
+.contact-overlay{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center; z-index:2000;
+  background: transparent; pointer-events:none; opacity:0; transition: opacity .25s ease;
+}
+.contact-overlay.active{ background: var(--overlay-bg); pointer-events:all; opacity:1; }
+.contact-wrap{display:flex; gap:28px; align-items:center; justify-content:center; padding:28px; border-radius:18px;}
+.contact-btn{
+  width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#000;color:var(--accent);border:3px solid var(--accent);font-size:26px;text-decoration:none;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  transform:translateX(300px) scale(0.8); opacity:0;
+}
+.contact-btn:hover{ background:var(--accent); color:#000; transform:scale(1.05); transition: .15s }
+@keyframes flyIn{0%{ transform:translateX(300px) scale(.7); opacity:0 }50%{ transform:translateX(80px) scale(1.1); opacity:1 }100%{ transform:translateX(0) scale(1); opacity:1 }}
+@keyframes flyOut{0%{ transform:translateX(0) scale(1); opacity:1 }50%{ transform:translateX(80px) scale(1.1); opacity:1 }100%{ transform:translateX(300px) scale(.7); opacity:0 }}
+
+/* RESPONSIVE LAYOUT */
+.hero-content h1 {font-size: calc(1.8rem + 1vw);}
+.hero-content p.lead {font-size: calc(0.9rem + 0.5vw);}
+.gallery-item img {width:100%; height:auto; max-height:250px;}
+
+@media (max-width:768px){
+  .hero-content h1 {font-size:2rem;}
+  .hero-content p.lead {font-size:1rem;}
+  .gallery-item img {max-height:220px;}
+  .class-card {padding:16px;}
+}
+
+@media (max-width:414px){
+  .hero-content h1 {font-size:1.8rem;}
+  .hero-content p.lead {font-size:0.95rem;}
+  .classes-grid, .gallery-grid {grid-template-columns:1fr; gap:18px;}
+  .gallery-item img {max-height:200px;}
+  .nav-inner {padding:0 10px;}
+  nav a {padding:6px 8px;}
+  .contact-btn {width:60px; height:60px; font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand">
+      <img src="elite.jpg" alt="Elite Power logo" />
+      <div class="title">Elite Power MMA</div>
+    </div>
+    <nav aria-label="Main navigation">
+      <a href="#top" id="home-link">Home</a>
+      <a href="#about">About</a>
+      <a href="#classes">Classes</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#" id="contact-open">Contact</a>
+    </nav>
+  </div>
+</header>
+<div id="top" style="height:0;overflow:hidden"></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-zoom"></div>
+  <div class="hero-content">
+    <h1 data-observe>Train hard. Get strong.</h1>
+    <h1 data-observe>Join Sharjah’s Elite Power MMA Gym.</h1>
+    <p class="lead" data-observe>Sharjah's premier combat sports & fitness destination — tough training, expert coaching, real results.</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div style="max-width:1100px;margin:0 auto;padding:20px;">
+    <h2 data-observe>About Us</h2>
+    <div class="about-box" data-observe>
+      <p>Elite Power MMA is a full-spectrum combat and fitness facility in Sharjah. We combine traditional striking arts, wrestling and grappling with modern strength and conditioning to build resilient athletes — whether your goal is fitness, weight loss, or competition. Our coaches are experienced, safety-first, and focused on technique and progression. The gym features heavy bag areas, a large mat for grappling and wrestling, and dedicated spaces for pad work and conditioning.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLASSES -->
+<section id="classes">
+  <div style="max-width:1100px;margin:0 auto;padding:20px;">
+    <h2 data-observe>Our Classes</h2>
+    <p class="intro" data-observe>From striking to grappling, and from fitness to fight prep — our expert coaches will push you to your limits. Whether you're stepping on the mat for the first time or sharpening your skills for competition, every session brings you one step closer to mastery.</p>
+    <div class="classes-grid" id="classesGrid">
+      <div class="class-card" data-observe><h3>Muay Thai</h3><p>Stand-up striking, clinch work and conditioning — emphasis on timing, power and pad-based drills.</p></div>
+      <div class="class-card" data-observe><h3>Wrestling</h3><p>Learn takedowns, defense and mat control with focused drilling and live positional sparring.</p></div>
+      <div class="class-card" data-observe><h3>MMA</h3><p>Integrated striking and grappling — transition training, takedown defense, and fight strategy for real sparring.</p></div>
+      <div class="class-card" data-observe><h3>Boxing & Kickboxing</h3><p>Speed, footwork and precision — pad rounds and movement patterns to sharpen striking and timing.</p></div>
+      <div class="class-card" data-observe><h3>Weight Loss Training</h3><p>High-intensity, combat-inspired workouts to burn fat, build lean muscle and boost endurance.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div style="max-width:1100px;margin:0 auto;padding:20px;">
+    <div class="gallery-grid" id="galleryGrid">
+      <div class="gallery-item left" data-observe>
+        <img src="bag.png" alt="Heavy bags and mat area">
+        <p>Bag area & mat — a row of heavy bags and a large wrestling mat show our focus on striking and grappling training combined with quality equipment.</p>
+      </div>
+      <div class="gallery-item right" data-observe>
+        <img src="bjj.jpeg" alt="BJJ sparring">
+        <p>Sparring & rolling — live grappling sessions focused on technique, timing, and controlled intensity for practical improvement.</p>
+      </div>
+      <div class="gallery-item left" data-observe>
+        <img src="come.jpeg" alt="Group training">
+        <p>Team training — dynamic sessions with partners and drills that push skill and conditioning in every class.</p>
+      </div>
+      <div class="gallery-item right" data-observe>
+        <img src="pusj.jpeg" alt="Conditioning & bodyweight work">
+        <p>Conditioning — bodyweight and calisthenics drills like push patterns to build functional strength and stamina.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-overlay" id="contactOverlay" aria-hidden="true">
+  <div class="contact-wrap" role="dialog" aria-modal="true" aria-label="Contact methods">
+    <a class="contact-btn" id="c-wa" href="https://wa.me/971509580389" target="_blank" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    <a class="contact-btn" id="c-insta" href="https://www.instagram.com/elitepower_mma/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+    <a class="contact-btn" id="c-phone" href="tel:+971509580389" title="Call"><i class="fa-solid fa-phone"></i></a>
+    <a class="contact-btn" id="c-map" href="https://www.google.com/maps" target="_blank" title="Location"><i class="fa-solid fa-location-dot"></i></a>
+  </div>
+</div>
+
+<script>
+// Smooth scroll
+document.getElementById('home-link').addEventListener('click', e=>{
+  e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// Contact overlay
+const contactOpen=document.getElementById('contact-open');
+const overlay=document.getElementById('contactOverlay');
+const wrap=overlay.querySelector('.contact-wrap');
+const buttons=Array.from(wrap.querySelectorAll('.contact-btn'));
+
+contactOpen.addEventListener('click', e=>{
+  e.preventDefault();
+  overlay.classList.add('active');
+  buttons.forEach((b,i)=>{
+    b.style.animation='none'; b.style.opacity=0;
+    setTimeout(()=>{ b.style.animation=`flyIn .75s cubic-bezier(.2,.9,.3,1) ${i*70}ms forwards`},50);
+  });
+});
+
+overlay.addEventListener('click', e=>{
+  if(e.target===overlay){
+    buttons.forEach((b,i)=>{b.style.animation=`flyOut .5s ease ${i*50}ms forwards`;})
+    setTimeout(()=>overlay.classList.remove('active'),500);
+  }
+});
+
+buttons.forEach(b=>b.addEventListener('click', ()=>{setTimeout(()=>{
+  buttons.forEach((b,i)=>{b.style.animation=`flyOut .5s ease ${i*50}ms forwards`;})
+  setTimeout(()=>overlay.classList.remove('active'),500);
+},300)}));
+
+// IntersectionObserver for fade in/out
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('visible')}
+    else{entry.target.classList.remove('visible')}
+  });
+},{root:null,rootMargin:'0px',threshold:0.1});
+document.querySelectorAll('[data-observe]').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
